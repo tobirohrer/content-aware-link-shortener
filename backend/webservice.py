@@ -29,13 +29,18 @@ def post_user():
 
 def get_random_url():
     url = ""
-    num_of_words = randint(2,5)
+    num_of_words = randint(2,4)
+    repeat = True
+    while repeat:
+        for x in range (0, num_of_words):
+            if x != 0:
+                url = url + "-" + link_elements[randint(0, len(link_elements)-1)]
+            if x == 0:
+                url = url + link_elements[randint(0, len(link_elements)-1)]
+        print(db.get(url))
+        if db.get(url) == False:
+            repeat = False
 
-    for x in range (0, num_of_words):
-        if x != 0:
-            url = url + "-" + link_elements[randint(0, len(link_elements)-1)]
-        if x == 0:
-            url = url + link_elements[randint(0, len(link_elements)-1)]
     return url
 
 if __name__ == '__main__':
