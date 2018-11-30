@@ -17,9 +17,12 @@ def do_redirect(funny_link):
 
 @app.route('/links', methods=["POST"])
 def post_user():
-    target = request.get_json()
+    payload = request.get_json()
+    target = payload['target']
+    if target.find("http://") != 0 and target.find("https://") != 0:
+        target = "http://" + target
     url = get_random_url()
-    links[url] = target['target']
+    links[url] = target
     return jsonify(links), 200
 
 def get_random_url():
