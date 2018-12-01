@@ -16,6 +16,7 @@ stats_db = pickledb.load('stats.db', False)
 @app.route('/<url>', methods=["GET"])
 def do_redirect(url):    
     target = link_db.get(url)
+    print(target)
     stats_db.set(url, stats_db.get(url)+1)
     stats_db.dump()
     return redirect(target, code=302)
