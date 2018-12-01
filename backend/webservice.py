@@ -4,18 +4,14 @@ import json
 from random import randint
 from flask_cors import CORS
 import pickledb 
-from store import redis
-
-redis.set('answer', 42)
-redis.get('answer')
 
 app = Flask(__name__)
 CORS(app)
 
 link_db = pickledb.load('links.db', False)
-url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
-links = {}
 stats_db = pickledb.load('stats.db', False)
+url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
+
 
 @app.route('/<url>', methods=["GET"])
 def do_redirect(url):    
@@ -23,8 +19,6 @@ def do_redirect(url):
     print(target)
     stats_db.set(url, stats_db.get(url)+1)
     stats_db.dump()
-
-    target = links[url]
 
     return redirect(target, code=302)
 
@@ -38,10 +32,6 @@ def post_user():
     link_db.set(url, target)
     stats_db.set(url, 0)
     link_db.dump()
-
-    links[url] = target
-
-    print(links)
 
     return jsonify(url), 200
 
