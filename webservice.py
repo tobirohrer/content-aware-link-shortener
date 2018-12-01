@@ -4,6 +4,10 @@ import json
 from random import randint
 from flask_cors import CORS
 import pickledb 
+from store import redis
+
+redis.set('answer', 42)
+redis.get('answer')
 
 app = Flask(__name__)
 CORS(app)
