@@ -10,7 +10,7 @@ CORS(app)
 
 link_db = pickledb.load('links.db', False)
 url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
-
+links = {}
 stats_db = pickledb.load('stats.db', False)
 
 @app.route('/<url>', methods=["GET"])
@@ -19,6 +19,9 @@ def do_redirect(url):
     print(target)
     stats_db.set(url, stats_db.get(url)+1)
     stats_db.dump()
+
+    target = links[url]
+
     return redirect(target, code=302)
 
 @app.route('/links', methods=["POST"])
@@ -31,6 +34,9 @@ def post_user():
     link_db.set(url, target)
     stats_db.set(url, 0)
     link_db.dump()
+
+    links[url] = target
+
     return jsonify(url), 200
 
 @app.route('/stats/<url>', methods=["GET"])
