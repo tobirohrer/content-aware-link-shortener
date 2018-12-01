@@ -37,6 +37,8 @@ def post_user():
 
     links[url] = target
 
+    print(links)
+
     return jsonify(url), 200
 
 @app.route('/stats/<url>', methods=["GET"])
