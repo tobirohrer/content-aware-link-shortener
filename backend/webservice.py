@@ -8,13 +8,17 @@ import pickledb
 app = Flask(__name__)
 CORS(app)
 
-db = pickledb.load('test.db', False)
-link_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
+link_db = pickledb.load('links.db', False)
+url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
 
-@app.route('/<funny_link>', methods=["GET"])
-def do_redirect(funny_link):    
-    redirect_to = db.get(funny_link)
-    return redirect(redirect_to, code=302)
+stats_db = pickledb.load('stats.db', False)
+
+@app.route('/<url>', methods=["GET"])
+def do_redirect(url):    
+    target = link_db.get(url)
+    stats_db.set(url, stats_db.get(url)+1)
+    stats_db.dump()
+    return redirect(target, code=302)
 
 @app.route('/links', methods=["POST"])
 def post_user():
@@ -23,9 +27,15 @@ def post_user():
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
     url = get_random_url()
-    db.set(url, target)
-    db.dump()
+    link_db.set(url, target)
+    stats_db.set(url, 0)
+    link_db.dump()
     return jsonify(url), 200
+
+@app.route('/stats/<url>', methods=["GET"])
+def get_stats(url):
+    stats = stats_db.get(url)
+    return jsonify(stats), 200
 
 def get_random_url():
     url = ""
@@ -34,11 +44,11 @@ def get_random_url():
     while repeat:
         for x in range (0, num_of_words):
             if x != 0:
-                url = url + "-" + link_elements[randint(0, len(link_elements)-1)]
+                url = url + "-" + url_elements[randint(0, len(url_elements)-1)]
             if x == 0:
-                url = url + link_elements[randint(0, len(link_elements)-1)]
-        print(db.get(url))
-        if db.get(url) == False:
+                url = url + url_elements[randint(0, len(url_elements)-1)]
+        print(link_db.get(url))
+        if link_db.get(url) == False:
             repeat = False
 
     return url
