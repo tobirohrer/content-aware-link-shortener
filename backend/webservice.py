@@ -12,7 +12,7 @@ url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen"
 @app.route('/<url>', methods=["GET"])
 def do_redirect(url):    
     target = db.get_target(url)
-    db.update_visit_stats(url)
+    db.update_url_stats(url)
 
     return redirect(target, code=302)
 
@@ -23,13 +23,18 @@ def post_user():
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
     url = get_random_url()
-    db.set_target(url, target)
+    link_count = db.set_target(url, target)
 
-    return jsonify(url), 200
+    return jsonify({"url": url, "link_count": link_count}), 200
 
 @app.route('/stats/<url>', methods=["GET"])
-def get_stats(url):
-    stats = db.get_visit_stats(url)
+def get_url_stats(url):
+    stats = db.get_url_stats(url)
+    return jsonify(stats), 200
+
+@app.route('/stats', methods=["GET"])
+def get_stats():
+    stats = db.get_link_count()
     return jsonify(stats), 200
 
 def get_random_url():
