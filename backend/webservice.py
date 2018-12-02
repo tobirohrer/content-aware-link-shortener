@@ -3,22 +3,16 @@ import requests
 import json
 from random import randint
 from flask_cors import CORS
-import pickledb 
-
+import db
 app = Flask(__name__)
 CORS(app)
 
-link_db = pickledb.load('links.db', False)
-stats_db = pickledb.load('stats.db', False)
 url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
-
 
 @app.route('/<url>', methods=["GET"])
 def do_redirect(url):    
-    target = link_db.get(url)
-    print(target)
-    stats_db.set(url, stats_db.get(url)+1)
-    stats_db.dump()
+    target = db.get_target(url)
+    db.update_visit_stats(url)
 
     return redirect(target, code=302)
 
@@ -29,15 +23,13 @@ def post_user():
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
     url = get_random_url()
-    link_db.set(url, target)
-    stats_db.set(url, 0)
-    link_db.dump()
+    db.set_target(url, target)
 
     return jsonify(url), 200
 
 @app.route('/stats/<url>', methods=["GET"])
 def get_stats(url):
-    stats = stats_db.get(url)
+    stats = db.get_visit_stats(url)
     return jsonify(stats), 200
 
 def get_random_url():
@@ -50,11 +42,11 @@ def get_random_url():
                 url = url + "-" + url_elements[randint(0, len(url_elements)-1)]
             if x == 0:
                 url = url + url_elements[randint(0, len(url_elements)-1)]
-        print(link_db.get(url))
-        if link_db.get(url) == False:
+        print(db.get_target(url))
+        if db.get_target(url) == False:
             repeat = False
 
     return url
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5002)
+    app.run(debug=True, host='0.0.0.0', port=5001)
