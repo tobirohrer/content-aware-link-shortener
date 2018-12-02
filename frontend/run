@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+
+echo "===> Building ..."
+npm run build --production
+
+echo "===> Running ... "
+mkdir -p /usr/share/nginx/html
+cp -r ./build/* /usr/share/nginx/html
+nginx -g "daemon off;"
