@@ -25,7 +25,7 @@ def post_user():
     url = get_random_url()
     link_count = db.set_target(url, target)
 
-    return jsonify({"url": url, "link_count": link_count}), 200
+    return jsonify({"url": url, "linkCount": link_count}), 200
 
 @app.route('/stats/<url>', methods=["GET"])
 def get_url_stats(url):
