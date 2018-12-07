@@ -4,6 +4,8 @@ import json
 from random import randint
 from flask_cors import CORS
 import db
+import links
+
 app = Flask(__name__)
 CORS(app)
 
@@ -22,7 +24,7 @@ def post_user():
     target = payload['target']
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
-    url = get_random_url()
+    url = links.generate(target)
     link_count = db.set_target(url, target)
 
     return jsonify({"url": url, "linkCount": link_count}), 200
