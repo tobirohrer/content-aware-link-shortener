@@ -5,12 +5,14 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import {NotFound} from "./notfound/notfound";
 import {Impressum} from "./impressum/impressum";
+import {Datenschutz} from "./datenschutz/datenschutz";
 
 const Root = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path={'/'} component={App} />
             <Route path={'/impressum'} component={Impressum} />
+            <Route path={'/datenschutz'} component={Datenschutz} />
             <Route path="*" component={NotFound} />
         </Switch>
     </BrowserRouter>
