@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Link } from 'react-router-dom'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -42,7 +43,7 @@ class App extends Component {
                                 Generiere Link
                             </Button>
                             {url != "" ?
-                            <div>
+                            <div style={{marginTop: "30px"}}>
                                 <a href={BACKEND_URL + '/' + url} >{BACKEND_URL + '/' + url}</a> 
                             </div>
                             : null}
@@ -52,8 +53,7 @@ class App extends Component {
                 <div style={{marginTop: "30px"}}>
                     Links: {linkCount}
                 </div>
-
-
+            <div style={{marginTop: "auto"}}><Link to="/impressum">Impressum</Link></div>
         </div>
     );
   }
