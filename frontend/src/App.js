@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Background from './files/background.jpg';
 
 const BACKEND_URL = process.env.REACT_APP_BACKENDURL
 
@@ -24,9 +25,10 @@ class App extends Component {
     const { target, url, linkCount } = this.state;
 
     return (
+        <section style={{backgroundImage: `url(${Background})`, backgroundSize: "contain", height: "100vh"}}>
         <div class="standard-font" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                 <div>
-                    <h1 align="center">Genug von langen, komplizierten URLS?</h1>
+                    <h1 style={{paddingTop: "100px", color: "white", fontSize: "50px"}} align="center">Links, die man sich merken kann. 🎉</h1>
                 </div>
                 <Card style={{marginTop: "20px"}}>
                     <CardContent>
@@ -42,19 +44,26 @@ class App extends Component {
                             <Button variant="contained" color="primary" onClick={()=>this.submitTarget(target)}>
                                 Generiere Link
                             </Button>
-                            {url != "" ?
-                            <div style={{marginTop: "30px"}}>
-                                <a href={BACKEND_URL + '/' + url} >{BACKEND_URL + '/' + url}</a> 
-                            </div>
-                            : null}
+
                         </div>
                     </CardContent>
                 </Card>
+                {url != "" ?
+                <Card style={{marginTop: "20px"}}>
+                    <CardContent>
+                            <div style={{marginTop: "10px"}}>
+                                <h2>Dein Link zu: {target}</h2>
+                                <a href={BACKEND_URL + '/' + url} >{BACKEND_URL + '/' + url}</a>
+                            </div>
+                    </CardContent>
+                </Card> : null}
                 <div style={{marginTop: "30px"}}>
                     Links: {linkCount}
                 </div>
             <div style={{marginTop: "auto"}}><Link to="/impressum">Impressum</Link></div>
+            <div style={{marginTop: "auto"}}><Link to="/datenschutz">Datenschutz</Link></div>
         </div>
+        </section>
     );
   }
 
