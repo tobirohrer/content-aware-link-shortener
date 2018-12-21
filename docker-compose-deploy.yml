@@ -9,6 +9,8 @@ services:
      
   backend:
     image: tobirohrer/remember-me-backend:latest
+    volumes:
+      - /root/store/:/analyse/
     ports:
      - 5001:8000
 

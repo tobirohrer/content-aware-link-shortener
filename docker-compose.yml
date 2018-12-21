@@ -11,10 +11,6 @@ services:
     build: ./backend
     image: funny-links/backend
     volumes:
-      - data:/Users/tobirohrer/git/remember-me/backend/store
+      - /Users/tobirohrer/:/analyse/
     ports:
      - 5001:8000
-
-volumes:
-  data:
-    driver: local
