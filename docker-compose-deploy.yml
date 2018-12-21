@@ -1,0 +1,16 @@
+version: '2.0'
+services:
+  frontend:
+    image: tobirohrer/remember-me:latest
+    environment:
+      - REACT_APP_BACKENDURL=http://localhost:5001
+    ports:
+     - 8003:80
+  backend:
+    image: tobirohrer/remember-me-backend:latest
+    ports:
+     - 5001:8000
+
+volumes:
+  data:
+    driver: local
