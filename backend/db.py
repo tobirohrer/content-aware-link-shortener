@@ -2,6 +2,8 @@ import pickledb
 
 link_db = pickledb.load('/analyse/links.db', False)
 stats_db = pickledb.load('/analyse/stats.db', False)
+#link_db = pickledb.load('./links.db', False)
+#stats_db = pickledb.load('./stats.db', False)
 
 def get_target(url):
     return link_db.get(url)

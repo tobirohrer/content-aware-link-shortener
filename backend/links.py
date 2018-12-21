@@ -7,13 +7,25 @@ from nltk.corpus import stopwords
 import nltk
 import db
 
-SPECIAL_CHARS = {u'ä': 'ae', 
-                 u'ü': 'ue', 
-                 u'ß': 'ss', 
-                 u'ö': 'oe'}
+def remove_special_chars(text):
+    special_chars = {u'ä': 'ae', 
+                     u'ü': 'ue', 
+                     u'ß': 'ss', 
+                     u'ö': 'oe'}
+
+    for special_char in special_chars:
+        text = text.replace(str(special_char), special_chars[special_char])
+    return text
+
+def prepare_german_stopwords():
+    german_stopwords = []
+    for stopword in stopwords.words('german'):
+        german_stopwords.append(remove_special_chars(stopword))
+    return german_stopwords
 
 def generate(target):
     content = requests.get(target)
+    content.encoding = content.apparent_encoding
     text = html2text.html2text(content.text)
 
     preprocessed_tokens = preprocess(text)
@@ -26,13 +38,13 @@ def generate(target):
 
 
 def preprocess(text):
-    for special_char in SPECIAL_CHARS:
-        text = text.replace(str(special_char), SPECIAL_CHARS[special_char])
+    text = text.lower()
+    text = remove_special_chars(text)
 
     nltk_tokens = word_tokenize(text)
 
     custom_stopwords = set({'http', 'https', 'and', 'jpg', 'mehr', 'fuer', 'gif', 'der', 'die', 'das', 'wir', 'ihr', 'sie', 'es', 'und', 'in', 'den'})
-    merged_stopwords = custom_stopwords.union(stopwords.words('german'))
+    merged_stopwords = custom_stopwords.union(prepare_german_stopwords())
     merged_stopwords = merged_stopwords.union(stopwords.words('english'))
 
     cleared_tokens = []
