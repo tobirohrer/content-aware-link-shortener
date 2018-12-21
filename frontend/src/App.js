@@ -38,9 +38,9 @@ class App extends Component {
             <div>
                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                         <div>
-                            <h1 style={{paddingTop: "8vh", color: "white", fontSize: "50px"}}>Links, die man sich merken kann. 🎉</h1>
+                            <h1 style={{marginTop: "10vh", color: "white", fontSize: "7vh", marginLeft: "10px"}}>Links, die man sich merken kann. 🎉</h1>
                         </div>
-                    <div style={{marginBottom: "30px"}}>
+                    <div style={{marginBottom: "5vh"}}>
                         <SplitFlapDisplay
                             characterSet={SplitFlapDisplay.NUMERIC}
                             value={linkCount.toString()}
@@ -51,7 +51,7 @@ class App extends Component {
                         <CardContent>
                                 <div style={{display: 'flex', flexDirection: 'column'}}>
                                     <TextField
-                                        style = {{width:"30vw"}}
+                                        style = {{width:"40vw"}}
                                         autoFocus
                                         id="standard-name"
                                         label="Link"
@@ -59,9 +59,9 @@ class App extends Component {
                                         onChange={(event)=>(this.setState({target: event.target.value}), this.setState({showResults: false}))}
                                         margin="normal"
                                     />
-                                    <Button style={{width: "25%", alignSelf: "flex-end", background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white',}}
-                                            variant="contained" onClick={()=>this.submitTarget(target)}>
-                                        Vereinfachen
+                                    <Button style={{width: "30wv", alignSelf: "flex-end", background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)', color: 'white'}}
+                                            variant="contained" onClick={()=>this.submitTarget(target)} >
+                                        <div style={{fontSize:"13px"}}>Vereinfachen</div>
                                     </Button>
                                     {fetching ? <div style={{alignSelf: "center"}}> <ReactSVG svgStyle={{ width: "30px", height: "30px" }} src={Loading}/> </div> : null}
                                 </div>
