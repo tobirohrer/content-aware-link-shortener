@@ -6,6 +6,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import nltk
 import db
+from random import randint
 
 def remove_special_chars(text):
     special_chars = {u'ä': 'ae', 
@@ -25,6 +26,10 @@ def prepare_german_stopwords():
 
 def generate(target):
     content = requests.get(target)
+
+    if content.status_code != 200:
+        return get_random_url()
+
     content.encoding = content.apparent_encoding
     text = html2text.html2text(content.text)
 
@@ -86,3 +91,13 @@ def find_url(sorted_tokens):
             i = i + 1
         else: 
             j = j + 1
+
+def get_random_url():
+    url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
+    while True:
+        word1 = url_elements[randint(0, len(url_elements)-1)]
+        word2 = url_elements[randint(0, len(url_elements)-1)]
+        
+        url = word1 + "-" + word2
+        if db.get_target(url) == False:
+            return url
