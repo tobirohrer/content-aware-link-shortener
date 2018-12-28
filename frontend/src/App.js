@@ -38,9 +38,9 @@ class App extends Component {
             <div>
                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                         <div>
-                            <h1 style={{marginTop: "10vh", color: "white", fontSize: "7vh", marginLeft: "10px"}}>Links, die man sich merken kann. 🎉</h1>
+                            <h1 style={{marginTop: "8vh", color: "white", fontSize: "5.5vh", marginLeft: "10px"}}>Links, die man sich merken kann. 🎉</h1>
                         </div>
-                    <div style={{marginBottom: "5vh"}}>
+                    <div style={{marginBottom: "4vh"}}>
                         <SplitFlapDisplay
                             characterSet={SplitFlapDisplay.NUMERIC}
                             value={linkCount.toString()}
@@ -68,9 +68,9 @@ class App extends Component {
                         </CardContent>
                     </Card>
                             <Grow in = {showResults}>
-                                <Card style={{marginTop: "20px"}}>
+                                <Card style={{marginTop: "10px"}}>
                                     <CardContent>
-                                            <div style={{marginTop: "10px"}}>
+                                            <div style={{marginTop: "5px"}}>
                                                 <div style={{paddingBottom: "20px", opacity: "0.6", whiteSpace: "nowrap",
                                                     overflow: "hidden",
                                                     textOverflow: "ellipsis",
@@ -91,7 +91,11 @@ class App extends Component {
                                 </Card>
                             </Grow>
                 </div>
-                <div style={{position: "absolute", bottom: 0}}>
+                <div style={{  position: "fixed",
+                    padding: "10px",
+                    bottom: 0,
+                    left: 0,
+                    right: 0}}>
                     <Link style={{paddingLeft: "15px", color: "white"}} to="/impressum">Impressum</Link>
                     <Link style={{paddingLeft: "15px", color: "white"}} to="/datenschutz">Datenschutz</Link>
                 </div>
