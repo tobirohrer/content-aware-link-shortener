@@ -112,14 +112,21 @@ class App extends Component {
             target: target
         })
     })
-        .then(response=>response.json())
+        .then(async response=>{
+            if(!response.ok){
+                throw Error()
+            }
+            return response.json()})
         .then(response=>{
             this.setState({url: response.url})
             this.setState({linkCount: response.linkCount})
             this.setState({showResults: true})
             this.setState({fetching: false})
         }
-        )
+        ).catch(()=>{
+        this.setState({fetching: false})
+        this.setState({showResults: false})
+    })
     }
 
     getStats = () => {

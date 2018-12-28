@@ -24,9 +24,8 @@ def prepare_german_stopwords():
         german_stopwords.append(remove_special_chars(stopword))
     return german_stopwords
 
-def generate(target):
-    content = requests.get(target)
-
+def generate(content):
+    
     if content.status_code != 200:
         return get_random_url()
 

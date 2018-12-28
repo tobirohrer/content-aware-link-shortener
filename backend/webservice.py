@@ -21,7 +21,13 @@ def post_user():
     target = payload['target']
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
-    url = links.generate(target)
+    
+    try:
+        content = requests.get(target)    
+    except:
+        return jsonify({"message": "could not reach target: " + target}), 404
+
+    url = links.generate(content)
     link_count = db.set_target(url, target)
 
     return jsonify({"url": url, "linkCount": link_count}), 200
