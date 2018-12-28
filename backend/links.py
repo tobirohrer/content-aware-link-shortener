@@ -93,7 +93,7 @@ def find_url(sorted_tokens):
             j = j + 1
 
 def get_random_url():
-    url_elements = ["cat", "dog", "blue", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "klettern", "skate", "shit"]
+    url_elements = ["cat", "dog", "blau", "nerd", "fun", "today", "kuchen", "hopfen", "bier", "code", "ball", "skate", "shit", "tofu", "love", "climb" ,"eat", "pizza", "tea", "shirt", "hot", "sex", "haar", "egal", "schnell", "weg", "baum", "wasser", "keks", "pc", "nicht", "reicht", "warum", "kunst", "taylor", "swift", "erde", "wiese", "saft", "kaffee", "tisch", "stuhl", "wald", "berge", "urlaub", "nebel", "sonne", "schnee", "regen"]
     while True:
         word1 = url_elements[randint(0, len(url_elements)-1)]
         word2 = url_elements[randint(0, len(url_elements)-1)]
