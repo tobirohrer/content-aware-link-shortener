@@ -1,6 +1,5 @@
 # remember-me
 A content aware Link shortener. 🎉 
-Currently available [here](http://167.99.143.175:8003/)
 
 ## The Stack
 **Frontend:** React, of course.
