@@ -4,6 +4,8 @@ WORKDIR /usr/src/app
 
 COPY . .
 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 RUN apk add npm
 RUN npm install
 RUN apk update
