@@ -5,6 +5,7 @@ services:
     image: funny-links/frontend
     environment:
       - REACT_APP_BACKENDURL=http://localhost:5001
+      - REACT_APP_FRONTENDURL=http://localhost:8003
     ports:
      - 8003:80
   backend:

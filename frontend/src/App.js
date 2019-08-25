@@ -13,6 +13,8 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import SplitFlapDisplay from 'react-split-flap-display';
 
 const BACKEND_URL = process.env.REACT_APP_BACKENDURL
+const FRONTEND_URL = process.env.REACT_APP_FRONTENDURL
+//const BACKEND_URL = "http://localhost:5001"
 
 class App extends Component {
 
@@ -78,10 +80,10 @@ class App extends Component {
                                                     {target}</div>
                                                 <div style={{flexDirection: 'row', display: 'flex'}}>
                                                     <div>
-                                                        <a style={showCopyFeedback ? {color: "#FE6B8B"} : null} href={BACKEND_URL + '/' + url} >{BACKEND_URL + '/' + url}</a>
+                                                        <a style={showCopyFeedback ? {color: "#FE6B8B"} : null} href={FRONTEND_URL + '/' + url} >{FRONTEND_URL + '/' + url}</a>
                                                     </div>
                                                     <div style={{marginLeft: "20px"}}>
-                                                        <CopyToClipboard text = {BACKEND_URL + '/' + url}>
+                                                        <CopyToClipboard text = {FRONTEND_URL + '/' + url}>
                                                             <Button onClick={()=>this.showCopyFeedback()} size="small" variant="outlined">Copy</Button>
                                                         </CopyToClipboard>
                                                     </div>
