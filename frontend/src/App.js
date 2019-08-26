@@ -14,7 +14,6 @@ import SplitFlapDisplay from 'react-split-flap-display';
 
 const BACKEND_URL = process.env.REACT_APP_BACKENDURL
 const FRONTEND_URL = process.env.REACT_APP_FRONTENDURL
-//const BACKEND_URL = "http://localhost:5001"
 
 class App extends Component {
 
@@ -26,7 +25,8 @@ class App extends Component {
       linkCount: 0,
       showCopyFeedback: false,
       showResult: false,
-      fetching: false
+      fetching: false,
+      editUrlMode: false
     }
 
     this.getStats()
@@ -79,14 +79,44 @@ class App extends Component {
                                                     maxWidth: "30vw"}}>
                                                     {target}</div>
                                                 <div style={{flexDirection: 'row', display: 'flex'}}>
-                                                    <div>
-                                                        <a style={showCopyFeedback ? {color: "#FE6B8B"} : null} href={FRONTEND_URL + '/' + url} >{FRONTEND_URL + '/' + url}</a>
-                                                    </div>
+                                                    {this.state.editUrlMode ?
+                                                        <div>
+                                                            <div>
+                                                                {FRONTEND_URL + '/'}
+                                                            </div>
+                                                            <TextField
+                                                                style = {{width:"40vw"}}
+                                                                autoFocus
+                                                                id="standard-name"
+                                                                label="Your custom Url"
+                                                                value={url}
+                                                                onChange={(event)=>(this.setState({url: event.target.value}))}
+                                                                margin="normal"
+                                                            />
+                                                        </div>
+                                                        :
+                                                        <div>
+                                                            <a style={showCopyFeedback ? {color: "#FE6B8B"} : null} href={FRONTEND_URL + '/' + url} >{FRONTEND_URL + '/' + url}</a>
+                                                        </div>
+                                                    }
+                                                    {
+                                                        this.state.editUrlMode ?
+                                                            null:
+                                                            <div style={{marginLeft: "20px"}}>
+                                                                <CopyToClipboard text = {FRONTEND_URL + '/' + url}>
+                                                                    <Button onClick={()=>this.showCopyFeedback()} size="small" variant="outlined">Copy</Button>
+                                                                </CopyToClipboard>
+                                                            </div>
+                                                    }
+                                                    {this.state.editUrlMode ?
+                                                        <div style={{marginLeft: "20px"}}>
+                                                            <Button onClick={()=>this.setState({editUrlMode: false})} size="small" variant="outlined">Save</Button>
+                                                        </div>
+                                                        :
                                                     <div style={{marginLeft: "20px"}}>
-                                                        <CopyToClipboard text = {FRONTEND_URL + '/' + url}>
-                                                            <Button onClick={()=>this.showCopyFeedback()} size="small" variant="outlined">Copy</Button>
-                                                        </CopyToClipboard>
+                                                            <Button onClick={()=>this.setState({editUrlMode: true})} size="small" variant="outlined">Edit</Button>
                                                     </div>
+                                                    }
                                                 </div>
                                             </div>
                                     </CardContent>
