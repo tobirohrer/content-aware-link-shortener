@@ -18,7 +18,10 @@ def do_redirect(url):
 @app.route('/links', methods=["POST"])
 def post_user():
     payload = request.get_json()
+
     target = payload['target']
+    url = payload['url']
+
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
     
@@ -27,8 +30,15 @@ def post_user():
     except:
         return jsonify({"message": "could not reach target: " + target}), 404
 
-    url = links.generate(content)
-    link_count = db.set_target(url, target)
+    if url == "" or None:
+        url = links.generate(content)
+
+    link_count = 0
+    already_exists = db.get_target(url)
+    if already_exists == False:
+        link_count = db.set_target(url, target)
+    else:
+        return jsonify({"message": "url occupied : " + url}), 409
 
     return jsonify({"url": url, "linkCount": link_count}), 200
 
