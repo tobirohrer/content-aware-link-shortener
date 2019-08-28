@@ -22,6 +22,7 @@ class App extends Component {
     this.state = {
       target: "",
       url: "",
+      editUrl: "",
       linkCount: 0,
       showCopyFeedback: false,
       showResult: false,
@@ -80,18 +81,15 @@ class App extends Component {
                                                     {target}</div>
                                                 <div style={{flexDirection: 'row', display: 'flex'}}>
                                                     {this.state.editUrlMode ?
-                                                        <div>
-                                                            <div>
+                                                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                                                            <div style={{alignSelf: 'center'}}>
                                                                 {FRONTEND_URL + '/'}
                                                             </div>
                                                             <TextField
-                                                                style = {{width:"40vw"}}
+                                                                style={{paddingLeft: "2px", paddingTop: "2px"}}
                                                                 autoFocus
-                                                                id="standard-name"
-                                                                label="Your custom Url"
-                                                                value={url}
-                                                                onChange={(event)=>(this.setState({url: event.target.value}))}
-                                                                margin="normal"
+                                                                value={this.state.editUrl}
+                                                                onChange={(event)=>(this.setState({editUrl: event.target.value}))}
                                                             />
                                                         </div>
                                                         :
@@ -110,7 +108,7 @@ class App extends Component {
                                                     }
                                                     {this.state.editUrlMode ?
                                                         <div style={{marginLeft: "20px"}}>
-                                                            <Button onClick={()=>this.setState({editUrlMode: false})} size="small" variant="outlined">Save</Button>
+                                                            <Button onClick={()=>this.editUrl()} size="small" variant="outlined">Save</Button>
                                                         </div>
                                                         :
                                                     <div style={{marginLeft: "20px"}}>
@@ -136,7 +134,15 @@ class App extends Component {
     );
   }
 
-  submitTarget = (target) => {
+  editUrl = () => {
+      //ToDo: Feedback, if occupied!
+      this.setState({editUrlMode: false});
+      if(this.state.editUrl != this.state.url){
+          this.submitTarget(this.state.target, this.state.editUrl);
+      }
+  }
+
+  submitTarget = (target, url = "") => {
     this.setState({fetching: true})
     fetch(BACKEND_URL + '/links', {
         method: 'POST',
@@ -145,16 +151,18 @@ class App extends Component {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            target: target
+            target: target,
+            url: url
         })
     })
         .then(async response=>{
             if(!response.ok){
-                throw Error()
+                throw Error(await response.json())
             }
             return response.json()})
         .then(response=>{
             this.setState({url: response.url})
+            this.setState({editUrl: response.url})
             this.setState({linkCount: response.linkCount})
             this.setState({showResults: true})
             this.setState({fetching: false})
