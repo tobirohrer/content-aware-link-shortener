@@ -18,9 +18,11 @@ def do_redirect(url):
 @app.route('/links', methods=["POST"])
 def post_user():
     payload = request.get_json()
-
-    target = payload['target']
-    url = payload['url']
+    try:
+        target = payload['target']
+        url = payload['url']
+    except:
+        return jsonify({"message": "request does not contain the keys target and url "}), 400
 
     if target.find("http://") != 0 and target.find("https://") != 0:
         target = "http://" + target
