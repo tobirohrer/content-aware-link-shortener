@@ -1,6 +1,6 @@
 gunicorn==19.9.0
 Flask==1.0.2
-Flask-Cors==3.0.6
+Flask-Cors==3.0.9
 pickleDB==0.8.1
 redis==3.0.1
 requests==2.20.0
