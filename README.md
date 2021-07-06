@@ -1,4 +1,4 @@
-# remember-me
+# The Project
 A content aware Link shortener. 🎉 
 
 ## The Stack
